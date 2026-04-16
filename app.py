@@ -37,7 +37,7 @@ def send_email(body):
 # DONNÉES PACKS & ÉVÉNEMENTS
 # ---------------------------------------------------------
 PACKS = {
-    "Partenaire Simple (3 billets sur un évènement, montant maximal : 300€)": 3,
+    "Partenaire Simple (3 billets, montant maximal : 300€)": 3,
     "Partenaire Fer (5 billets, montant maximal : 600€)": 5,
     "Partenaire Bronze (10 billets, montant maximal : 1 200€)": 10,
     "Partenaire Argent (20 billets, montant maximal : 3 000€)": 20,
@@ -116,31 +116,8 @@ if st.button("Envoyer le formulaire"):
     elif total != max_billets:
         st.warning(f"Vous devez sélectionner exactement **{max_billets} billets** (actuellement {total}).")
 
-    # RÈGLE SPÉCIALE PACK 3 BILLETS
-    elif max_billets == 3:
-        nb_evenements_non_vides = sum(1 for q in billets_selection.values() if q > 0)
-
-        if nb_evenements_non_vides != 1:
-            st.error("❌ Le pack 3 billets impose de mettre les 3 billets sur **un seul événement**.")
-        else:
-            # Envoi email
-            email_body = f"""
-Nouvelle réponse partenaire :
-
-Nom du partenaire : {nom}
-Pack choisi : {pack}
-Nombre de billets : {max_billets}
-
-Répartition :
-{chr(10).join([f"- {event} : {qte}" for event, qte in billets_selection.items()])}
-"""
-            if send_email(email_body):
-                st.success("Formulaire envoyé avec succès !")
-            else:
-                st.error("Erreur lors de l'envoi de l'email.")
-
-    # AUTRES PACKS (répartition libre)
     else:
+        # Envoi email (tous packs = même logique)
         email_body = f"""
 Nouvelle réponse partenaire :
 
