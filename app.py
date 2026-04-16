@@ -23,7 +23,7 @@ def send_email(body):
     data = {
         'Messages': [
             {
-                "From": {"Email": "crmt.maxence@gmail.com"},
+                "From": {"Email": "lapalador2022@gmail.com"},
                 "To": [{"Email": email} for email in EMAIL_RECEIVERS],
                 "Subject": "Nouvelle réponse partenaire",
                 "TextPart": body
